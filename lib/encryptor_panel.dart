@@ -15,7 +15,10 @@ class _EncryptorPanelState extends State<EncryptorPanel> {
     {'name': 'SHA1', 'type': 1},
     {'name': 'SHA256', 'type': 1},
     {'name': 'HMAC', 'type': 1},
-    {'name': 'BASE64', 'type': 1}
+    {'name': 'BASE64', 'type': 0},
+    {'name': 'AES', 'type': 0},
+    {'name': 'SALSA20', 'type': 0},
+    {'name': 'RSA', 'type': 0},
   ];
 
   final _duration = const Duration(milliseconds: 300);
@@ -23,6 +26,7 @@ class _EncryptorPanelState extends State<EncryptorPanel> {
   final _keyTxt = TextEditingController();
 
   String _encryptedTxt = '';
+  String? _errorText;
   bool _isCopied = false;
 
   late Map<String, dynamic> _pickedMethod;
@@ -61,6 +65,7 @@ class _EncryptorPanelState extends State<EncryptorPanel> {
                 minLines: 1,
                 maxLines: 6,
                 controller: _textTxt,
+                autofocus: true,
                 decoration: const InputDecoration(
                   hintText: 'Şifrələnəcək mətni daxil edin',
                 ),
@@ -71,20 +76,35 @@ class _EncryptorPanelState extends State<EncryptorPanel> {
                 items: _methods
                     .map(
                       (e) => DropdownMenuItem(
-                        child: Text(e['name'].toString()),
+                        child: Row(
+                          children: [
+                            e['type'] == 1
+                                ? const Text(
+                                    'HASH',
+                                    style: TextStyle(color: Colors.cyan),
+                                  )
+                                : const Text(
+                                    'ENCYRPT',
+                                    style: TextStyle(color: Colors.teal),
+                                  ),
+                            SizedBox(width: 8),
+                            Text(e['name'].toString()),
+                          ],
+                        ),
                         value: e,
                       ),
                     )
                     .toList(),
                 onChanged: (Map<String, dynamic>? val) {
-                  _pickedMethod = val!;
+                  setState(() => _pickedMethod = val!);
                   encryptText();
                 },
                 value: _pickedMethod,
               ),
               const SizedBox(height: 20),
               AnimatedCrossFade(
-                crossFadeState: _pickedMethod['name'] == 'HMAC'
+                crossFadeState: _pickedMethod['name'] == 'HMAC' ||
+                        _pickedMethod['name'] == 'AES'
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond,
                 duration: _duration,
@@ -138,13 +158,20 @@ class _EncryptorPanelState extends State<EncryptorPanel> {
                 ],
               ),
               const SizedBox(height: 20),
-              SelectableText(
-                _encryptedTxt,
-                style: const TextStyle(
-                  color: Colors.green,
-                  fontSize: 16,
-                ),
-              ),
+              _errorText == null
+                  ? SelectableText(
+                      _encryptedTxt,
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontSize: 16,
+                      ),
+                    )
+                  : SelectableText(
+                      _errorText!,
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    )
             ],
           ),
         ),
@@ -154,26 +181,41 @@ class _EncryptorPanelState extends State<EncryptorPanel> {
   }
 
   Future<void> encryptText() async {
-    if (_textTxt.text.isNotEmpty) {
-      switch (_pickedMethod['name']) {
-        case 'MD5':
-          _encryptedTxt = EncyptionrHelper.toMD5(_textTxt.text);
-          break;
-        case 'SHA1':
-          _encryptedTxt = EncyptionrHelper.toSHA1(_textTxt.text);
-          break;
-        case 'SHA256':
-          _encryptedTxt = EncyptionrHelper.toSHA256(_textTxt.text);
-          break;
-        case 'HMAC':
-          _encryptedTxt = EncyptionrHelper.toHMAC(_textTxt.text, _keyTxt.text);
-          break;
-        case 'BASE64':
-          _encryptedTxt = EncyptionrHelper.toBASE64(_textTxt.text);
-          break;
-      }
+    try {
+      _errorText = null;
+      if (_textTxt.text.isNotEmpty) {
+        switch (_pickedMethod['name']) {
+          case 'MD5':
+            _encryptedTxt = EncyptionHelper.toMD5(_textTxt.text);
+            break;
+          case 'SHA1':
+            _encryptedTxt = EncyptionHelper.toSHA1(_textTxt.text);
+            break;
+          case 'SHA256':
+            _encryptedTxt = EncyptionHelper.toSHA256(_textTxt.text);
+            break;
+          case 'HMAC':
+            _encryptedTxt = EncyptionHelper.toHMAC(_textTxt.text, _keyTxt.text);
+            break;
+          case 'BASE64':
+            _encryptedTxt = EncyptionHelper.toBASE64(_textTxt.text);
+            break;
+          case 'AES':
+            _encryptedTxt =
+                EncyptionHelper.toAES(_textTxt.text, _keyTxt.text).base64;
+            break;
+          case 'SALSA20':
+            _encryptedTxt = EncyptionHelper.toSalsa20(_textTxt.text).base64;
+            break;
+          case 'RSA':
+            _encryptedTxt = (await EncyptionHelper.toRSA(_textTxt.text)).base64;
+            break;
+        }
 
-      setState(() => _isCopied = false);
+        setState(() => _isCopied = false);
+      }
+    } catch (e) {
+      setState(() => _errorText = e.toString());
     }
   }
 
