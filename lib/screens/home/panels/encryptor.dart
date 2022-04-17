@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hisaz_cryptor/encryption_helper.dart';
+import 'package:hisaz_cryptor/utils/encrypt_decrypt_helper.dart';
 
 class EncryptorPanel extends StatefulWidget {
   const EncryptorPanel({Key? key}) : super(key: key);
@@ -87,7 +87,7 @@ class _EncryptorPanelState extends State<EncryptorPanel> {
                                     'ENCYRPT',
                                     style: TextStyle(color: Colors.teal),
                                   ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Text(e['name'].toString()),
                           ],
                         ),
@@ -168,7 +168,7 @@ class _EncryptorPanelState extends State<EncryptorPanel> {
                     )
                   : SelectableText(
                       _errorText!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.red,
                       ),
                     )
