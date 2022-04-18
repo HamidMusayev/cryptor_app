@@ -26,10 +26,6 @@ class EncyptionHelper {
     return base64.encode(utf8.encode(text));
   }
 
-  static String fromBASE64(String base64Text) {
-    return utf8.decode(base64.decode(base64Text));
-  }
-
 // Modes of operation
 // Default mode is SIC AESMode.sic, you can override it using the mode named parameter:
 //
@@ -55,14 +51,6 @@ class EncyptionHelper {
     return encrypter.encrypt(text, iv: iv);
   }
 
-  static String fromAES(Encrypted aesEncrypted, String key) {
-    final k = Key.fromUtf8(key);
-    final iv = IV.fromLength(16);
-
-    final encrypter = Encrypter(AES(k));
-    return encrypter.decrypt(aesEncrypted, iv: iv);
-  }
-
   static Encrypted toSalsa20(String text) {
     final k = Key.fromLength(32);
     final iv = IV.fromLength(8);
@@ -71,28 +59,12 @@ class EncyptionHelper {
     return encrypter.encrypt(text, iv: iv);
   }
 
-  static String fromSalsa20(Encrypted salsa20Encrypted) {
-    final k = Key.fromLength(32);
-    final iv = IV.fromLength(8);
-
-    final encrypter = Encrypter(Salsa20(k));
-    return encrypter.decrypt(salsa20Encrypted, iv: iv);
-  }
-
   static Future<Encrypted> toRSA(String text) async {
     final publicKey = await parseKeyFromFile<RSAPublicKey>('test/public.pem');
     final privKey = await parseKeyFromFile<RSAPrivateKey>('test/private.pem');
 
     final encrypter = Encrypter(RSA(publicKey: publicKey, privateKey: privKey));
     return encrypter.encrypt(text);
-  }
-
-  static Future<String> fromRSA(Encrypted rsaEncrypted) async {
-    final publicKey = await parseKeyFromFile<RSAPublicKey>('test/public.pem');
-    final privKey = await parseKeyFromFile<RSAPrivateKey>('test/private.pem');
-
-    final encrypter = Encrypter(RSA(publicKey: publicKey, privateKey: privKey));
-    return encrypter.decrypt(rsaEncrypted);
   }
 
   // Signature and verification

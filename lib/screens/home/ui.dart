@@ -1,34 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:hisaz_cryptor/screens/home/panels/decryptor.dart';
-import 'package:hisaz_cryptor/screens/home/panels/encryptor.dart';
+import 'package:get/get.dart';
+import 'package:hisaz_cryptor/screens/home/controller.dart';
+import 'package:hisaz_cryptor/screens/panels/decryptor/ui.dart';
+import 'package:hisaz_cryptor/screens/panels/encryptor/ui.dart';
+import 'package:hisaz_cryptor/screens/panels/uploader/ui.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends GetView<CryptorController> {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  late TabController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TabController(
-      initialIndex: 0,
-      length: 2,
-      vsync: this,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Get.put(CryptorController());
     return Scaffold(
       body: Column(
         children: [
           TabBar(
-            controller: _controller,
+            controller: controller.tabCntr,
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.grey,
             indicatorColor: Colors.blue,
@@ -39,19 +26,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             //isScrollable: true,
             tabs: const [
               Tab(
+                text: 'HISAZ Cloud',
+                icon: Icon(Icons.snippet_folder_rounded),
+              ),
+              Tab(
                 text: 'HISAZ Encryptor',
-                icon: Icon(Icons.lock_outline_rounded),
+                icon: Icon(Icons.enhanced_encryption_rounded),
               ),
               Tab(
                 text: 'HISAZ Decryptor',
-                icon: Icon(Icons.lock_open_rounded),
+                icon: Icon(Icons.no_encryption_rounded),
               ),
             ],
           ),
           Expanded(
             child: TabBarView(
-              controller: _controller,
+              controller: controller.tabCntr,
               children: const [
+                UploaderPanel(),
                 EncryptorPanel(),
                 DecryptorPanel(),
               ],
