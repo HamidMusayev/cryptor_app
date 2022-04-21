@@ -1,29 +1,18 @@
 import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:ftpconnect/ftpconnect.dart';
 
 class FTPService {
   final ftpConnect = FTPConnect(
-    'hisazdev.az',
-    user: 'app@hisazdev.az',
-    pass: 'app@hisazdev',
+    '192.168.200.106',
+    user: 'HAMIDVS',
+    pass: '8520',
+    port: 21,
   );
 
-  Future<void> uploadFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      allowMultiple: true,
-    );
-
-    if (result != null) {
-      for (var file in result.files) {
-        await ftpConnect.connect();
-        bool res = await ftpConnect.uploadFileWithRetry(File(file.path!),
-            pRetryCount: 2);
-        await ftpConnect.disconnect();
-      }
-    }
+  Future<void> uploadFile(File file) async {
+    await ftpConnect.connect();
+    bool res = await ftpConnect.uploadFileWithRetry(file, pRetryCount: 2);
+    await ftpConnect.disconnect();
   }
 
   Future<void> downloadFile(String filename, String newFileName) async {
@@ -33,9 +22,16 @@ class FTPService {
     await ftpConnect.disconnect();
   }
 
-  Future<void> getFolders() async {
+  Future<List<FTPEntry>> getFolders(DIR_LIST_COMMAND cmd) async {
     await ftpConnect.connect();
-    var res = await ftpConnect.listDirectoryContent();
+    var res = await ftpConnect.listDirectoryContent(cmd: cmd);
+    await ftpConnect.disconnect();
+    return res;
+  }
+
+  Future<void> getCurrentDirectory() async {
+    await ftpConnect.connect();
+    var res = await ftpConnect.currentDirectory();
     await ftpConnect.disconnect();
   }
 }
