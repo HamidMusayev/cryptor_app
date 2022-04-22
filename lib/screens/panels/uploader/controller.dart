@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:ftpconnect/ftpconnect.dart';
 import 'package:get/get.dart';
 import 'package:hisaz_cryptor/ftp/ftp_service.dart';
+import 'package:hisaz_cryptor/utils/constants.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UploaderController extends GetxController {
   final List<Map<String, dynamic>> fileOperations = const [
@@ -49,6 +51,20 @@ class UploaderController extends GetxController {
     }
 
     isLoading.value = false;
+  }
+
+  Future<void> download(String filename) async {
+    String path = '${(await getDownloadsDirectory())!.path}\\$filename';
+
+    Get.showSnackbar(Snacks.success(
+        'Fayl yüklənir...', filename, Icons.download_rounded,
+        duration: Durations.m30));
+
+    await _service.downloadFile(filename, path);
+
+    Get.closeAllSnackbars();
+    Get.showSnackbar(
+        Snacks.success('Fayl bura yükləndi', path, Icons.check_circle));
   }
 
   @override

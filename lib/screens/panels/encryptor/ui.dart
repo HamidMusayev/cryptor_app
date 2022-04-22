@@ -77,7 +77,7 @@ class EncryptorPanel extends GetView<EncryptorController> {
                               controller.pickedMethod.value['name'] == 'AES'
                           ? CrossFadeState.showFirst
                           : CrossFadeState.showSecond,
-                  duration: Durations.duration300,
+                  duration: Durations.ms300,
                   secondChild: Container(),
                   firstChild: TextField(
                     minLines: 1,
@@ -125,7 +125,7 @@ class EncryptorPanel extends GetView<EncryptorController> {
                       crossFadeState: controller.isCopied.value
                           ? CrossFadeState.showSecond
                           : CrossFadeState.showFirst,
-                      duration: Durations.duration300,
+                      duration: Durations.ms300,
                     ),
                   )
                 ],

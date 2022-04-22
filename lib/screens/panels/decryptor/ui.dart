@@ -71,7 +71,7 @@ class DecryptorPanel extends GetView<DecryptorController> {
                         controller.pickedMethod.value['name'] == 'AES'
                             ? CrossFadeState.showFirst
                             : CrossFadeState.showSecond,
-                    duration: Durations.duration300,
+                    duration: Durations.ms300,
                     secondChild: Container(),
                     firstChild: TextField(
                       minLines: 1,
@@ -121,7 +121,7 @@ class DecryptorPanel extends GetView<DecryptorController> {
                         crossFadeState: controller.isCopied.value
                             ? CrossFadeState.showSecond
                             : CrossFadeState.showFirst,
-                        duration: Durations.duration300,
+                        duration: Durations.ms300,
                       ),
                     )
                   ],

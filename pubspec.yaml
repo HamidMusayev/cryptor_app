@@ -18,14 +18,29 @@ dependencies:
   file_picker: ^4.5.1
   intl: ^0.17.0
   flutter_svg: ^1.0.3
+  path_provider: ^2.0.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
+  msix: ^3.5.1
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/svg/
+
+msix_config:
+  display_name: HISAZ DEV
+  publisher_display_name: Hamid Musayev
+  identity_name: az.hisaz
+  msix_version: 1.0.0.0
+  logo_path: D:\HISAZ\FLUTTER\hisaz_cryptor\package_files\logo_blue.png
+  certificate_path: D:\HISAZ\FLUTTER\hisaz_cryptor\package_files\CERTIFICATE.pfx
+  certificate_password: salamlar12
+  certificate_subject: CN=Hamid Musayev
+  capabilities: internetClient
+  #  publisher: CN=BF212345-5644-46DF-8668-012044C1B138
+  #  store: false

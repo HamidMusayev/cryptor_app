@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hisaz_cryptor/screens/home/controller.dart';
 import 'package:hisaz_cryptor/screens/panels/decryptor/ui.dart';
@@ -24,18 +25,18 @@ class HomeScreen extends GetView<CryptorController> {
               fontSize: 16,
             ),
             //isScrollable: true,
-            tabs: const [
+            tabs: [
               Tab(
                 text: 'HISAZ Cloud',
-                icon: Icon(Icons.snippet_folder_rounded),
+                icon: SvgPicture.asset('assets/svg/cloud.svg', width: 35),
               ),
               Tab(
                 text: 'HISAZ Encryptor',
-                icon: Icon(Icons.enhanced_encryption_rounded),
+                icon: SvgPicture.asset('assets/svg/encryptor.svg', width: 20),
               ),
               Tab(
                 text: 'HISAZ Decryptor',
-                icon: Icon(Icons.no_encryption_rounded),
+                icon: SvgPicture.asset('assets/svg/decryptor.svg', width: 40),
               ),
             ],
           ),

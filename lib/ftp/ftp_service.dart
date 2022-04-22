@@ -9,17 +9,18 @@ class FTPService {
     port: 21,
   );
 
-  Future<void> uploadFile(File file) async {
+  Future<bool> uploadFile(File file) async {
     await ftpConnect.connect();
     bool res = await ftpConnect.uploadFileWithRetry(file, pRetryCount: 2);
     await ftpConnect.disconnect();
+    return res;
   }
 
-  Future<void> downloadFile(String filename, String newFileName) async {
+  Future<bool> downloadFile(String filename, String path) async {
     await ftpConnect.connect();
-    bool res =
-        await ftpConnect.downloadFileWithRetry(filename, File(newFileName));
+    bool res = await ftpConnect.downloadFileWithRetry(filename, File(path));
     await ftpConnect.disconnect();
+    return res;
   }
 
   Future<List<FTPEntry>> getFolders(DIR_LIST_COMMAND cmd) async {
