@@ -36,8 +36,9 @@ class UploaderController extends GetxController {
   }
 
   Future<void> upload() async {
-    isLoading.value = true;
-
+    Get.showSnackbar(Snacks.success(
+        'Fayl göndərilir...', 'Gözləyin', Icons.cloud_upload_rounded,
+        duration: Durations.m30));
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.any,
       allowMultiple: true,
@@ -50,7 +51,11 @@ class UploaderController extends GetxController {
       }
     }
 
-    isLoading.value = false;
+    Get.closeAllSnackbars();
+    Get.showSnackbar(Snacks.success(
+        'Fayl göndərildi', result?.files.first.name ?? '', Icons.check_circle));
+
+    await getFolders();
   }
 
   Future<void> download(String filename) async {
