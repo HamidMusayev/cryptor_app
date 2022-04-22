@@ -65,6 +65,22 @@ class UploaderController extends GetxController {
     Get.closeAllSnackbars();
     Get.showSnackbar(
         Snacks.success('Fayl bura yükləndi', path, Icons.check_circle));
+
+    await getFolders();
+  }
+
+  Future<void> delete(String filename) async {
+    Get.showSnackbar(Snacks.success(
+        'Fayl silinir...', filename, Icons.delete_rounded,
+        duration: Durations.m30));
+
+    await _service.deleteFile(filename);
+
+    Get.closeAllSnackbars();
+    Get.showSnackbar(
+        Snacks.success('Fayl silindi', filename, Icons.check_circle));
+
+    await getFolders();
   }
 
   @override

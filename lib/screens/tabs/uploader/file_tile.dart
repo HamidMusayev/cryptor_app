@@ -36,14 +36,15 @@ class FileTile extends GetView<UploaderController> {
           PopupMenuButton<Map<String, dynamic>>(
             tooltip: 'Digər',
             icon: const Icon(Icons.more_vert_rounded),
-            onSelected: (value) {
-              switch (value) {
-                // case 'Sil':
-                //   break;
-                // case 'Adını dəyiş':
-                //   break;
-                // case 'Sıxışdır':
-                //   break;
+            onSelected: (value) async {
+              switch (value['name']) {
+                case 'Sil':
+                  await controller.delete(file.name!);
+                  break;
+                case 'Adını dəyiş':
+                  break;
+                case 'Sıxışdır':
+                  break;
               }
             },
             itemBuilder: (BuildContext context) => controller.fileOperations
