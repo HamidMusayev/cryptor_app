@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hisaz_cryptor/screens/home/controller.dart';
-import 'package:hisaz_cryptor/screens/panels/decryptor/ui.dart';
-import 'package:hisaz_cryptor/screens/panels/encryptor/ui.dart';
-import 'package:hisaz_cryptor/screens/panels/uploader/ui.dart';
+import 'package:hisaz_cryptor/screens/tabs/decryptor/ui.dart';
+import 'package:hisaz_cryptor/screens/tabs/encryptor/ui.dart';
+import 'package:hisaz_cryptor/screens/tabs/uploader/ui.dart';
 
 class HomeScreen extends GetView<CryptorController> {
   const HomeScreen({Key? key}) : super(key: key);
@@ -44,9 +44,9 @@ class HomeScreen extends GetView<CryptorController> {
             child: TabBarView(
               controller: controller.tabCntr,
               children: const [
-                UploaderPanel(),
-                EncryptorPanel(),
-                DecryptorPanel(),
+                UploaderTab(),
+                EncryptorTab(),
+                DecryptorTab(),
               ],
             ),
           ),

@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import '../../../../utils/constants.dart';
 import 'controller.dart';
 
-class DecryptorPanel extends GetView<DecryptorController> {
-  const DecryptorPanel({Key? key}) : super(key: key);
+class DecryptorTab extends GetView<DecryptorController> {
+  const DecryptorTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

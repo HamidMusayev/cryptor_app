@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hisaz_cryptor/screens/panels/encryptor/controller.dart';
+import 'package:hisaz_cryptor/screens/tabs/encryptor/controller.dart';
 import 'package:hisaz_cryptor/utils/constants.dart';
 
-class EncryptorPanel extends GetView<EncryptorController> {
-  const EncryptorPanel({Key? key}) : super(key: key);
+class EncryptorTab extends GetView<EncryptorController> {
+  const EncryptorTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

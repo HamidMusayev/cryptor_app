@@ -2,36 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ftpconnect/ftpconnect.dart';
 import 'package:get/get.dart';
-import 'package:hisaz_cryptor/screens/panels/uploader/controller.dart';
+import 'package:hisaz_cryptor/screens/tabs/uploader/controller.dart';
 import 'package:intl/intl.dart';
 
 import '../../../utils/constants.dart';
 
-class FolderTile extends GetView<UploaderController> {
-  final FTPEntry folder;
+class FileTile extends GetView<UploaderController> {
+  final FTPEntry file;
 
-  const FolderTile({Key? key, required this.folder}) : super(key: key);
+  const FileTile({Key? key, required this.file}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Get.put(UploaderController());
 
     return ListTile(
-      onTap: () {},
-      leading: SvgPicture.asset('assets/svg/folder_2.svg', width: 50),
-      title: Text(folder.name ?? 'null'),
+      leading: SvgPicture.asset('assets/svg/file.svg', width: 50),
+      title: Text(file.name ?? 'null'),
       subtitle: Text(
-          '${((folder.size ?? 0) * (9.537 * 0.0000001)).toStringAsFixed(1)} MB - '
-          '${DateFormat('dd MMM kk:mm').format(folder.modifyTime ?? DateTime.now())}'),
+          '${((file.size ?? 0) * (9.537 * 0.0000001)).toStringAsFixed(1)} MB - '
+          '${DateFormat('dd MMM kk:mm').format(file.modifyTime ?? DateTime.now())}'),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            tooltip: 'Aç',
-            onPressed: () {},
+            tooltip: 'Yüklə',
+            onPressed: () async => controller.download(file.name!),
             icon: const Icon(
-              Icons.navigate_next_rounded,
-              color: Colors.orangeAccent,
+              Icons.download_rounded,
+              color: Colors.green,
             ),
           ),
           PopupMenuButton<Map<String, dynamic>>(

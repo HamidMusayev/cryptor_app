@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ftpconnect/ftpconnect.dart';
 import 'package:get/get.dart';
-import 'package:hisaz_cryptor/screens/panels/uploader/file_tile.dart';
+import 'package:hisaz_cryptor/screens/tabs/uploader/file_tile.dart';
 import 'package:hisaz_cryptor/utils/constants.dart';
 
 import 'controller.dart';
 import 'folder_tile.dart';
 
-class UploaderPanel extends GetView<UploaderController> {
-  const UploaderPanel({Key? key}) : super(key: key);
+class UploaderTab extends GetView<UploaderController> {
+  const UploaderTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
