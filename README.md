@@ -1,6 +1,6 @@
-# hisaz_cryptor
+# cryptor_app
 
-Windows app for crypting data. Maded by HAMIDVS for HISAZ team. D-20220401
+Windows app for crypting data.
 
 ## Getting Started
 
